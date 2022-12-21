@@ -1,0 +1,16 @@
+.cart-body {
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+}
+
+.cart-box {
+  margin-top: 50px;
+  border-style: solid;
+  width: 300px;
+  padding: 30px;
+}
+
+.cart-item {
+  margin-bottom: 20px;
+}
