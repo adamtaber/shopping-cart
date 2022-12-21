@@ -1,37 +1,55 @@
 import Navbar from './Navbar';
+import React, { useState, useEffect, createContext } from "react";
+import { productsArray } from './components/productList';
+import { CartContext } from './CartContext';
+import { useContext } from 'react';
 
 const Shop = () => {
-  const shopItems = [
-    {id: 1, name: "item 1", price: 2},
-    {id: 2, name: "item 2", price: 5},
-    {id: 3, name: "item 3", price: 25}
-  ]
+  // const [shoppingCart, setShoppingCart] = useState([]);
+  // const [cartQuantity, setCartQuantity] = useState(0);
+
+  const cart = useContext(CartContext);
+
+  // const shopItems = [
+  //   {id: 0, name: "item 1", price: 2},
+  //   {id: 1, name: "item 2", price: 5},
+  //   {id: 2, name: "item 3", price: 25}
+  // ]
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    cart.addToCart(e.target.itemId.value, 
+                   e.target.itemName.value,
+                   Number(e.target.itemPrice.value),
+                   Number(e.target.quantity.value));
+    // let itemQuantity = Number(e.target.quantity.value)
+    // let itemId = e.target.itemId.value
+    // setShoppingCart(shoppingCart => [...shoppingCart, 
+    //                                    {item: shopItems[itemId], 
+    //                                     quantity: itemQuantity}])
+    // setCartQuantity(cartQuantity + itemQuantity)
+  }
 
   return (
     <div>
       <Navbar />
-      {shopItems.map(item => {
+      {productsArray.map((item, idx) => {
         return (
-          <div key={item.id}>
+          <div key={idx}>
             <p>{item.name}</p>
             <p>${item.price}</p>
-            <form>
+            <form onSubmit = {handleSubmit}>
               <label> Qty:
-                <input type="number" />
+                <input type="number" name="quantity" />        
               </label>
+              <input type="hidden" name="itemId" value={item.id} />
+              <input type="hidden" name="itemName" value={item.name} />
+              <input type="hidden" name="itemPrice" value={item.price} />
               <button type='submit'>Add to Cart</button>
             </form>
           </div>
         )
       })}
-
-      {/* <div>
-        <p>{shopItems[0].name}</p>
-        <p>${shopItems[0].price}</p>
-        <label> Qty:
-          <input type="number" />
-        </label>
-      </div> */}
     </div>
   )
 }
